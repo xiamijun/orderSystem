@@ -1,10 +1,16 @@
 <template>
-    <div>
-        <headerComponent></headerComponent>
-        <div class="contentArea">
-            模板
-        </div>
+  <div>
+    <headerComponent></headerComponent>
+    <div class="container">
+      <div class="left">
+        <div class="tab1" :class="{tabBlue:activeTab===1}" @click="changeTab(1)"><span>订单统计</span></div>
+        <div class="tab2" :class="{tabBlue:activeTab===2}" @click="changeTab(2)"><span>订单列表</span></div>
+      </div>
+      <div class="contentArea">
+        11
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -15,21 +21,44 @@
     },
     data() {
       return {
+        activeTab:1
       };
     },
     methods: {
+      changeTab(data){
+        this.activeTab=data;
+      }
     }
   }
 </script>
 
 <style scoped>
-    .contentArea {
-        width: 10rem;
-        margin: 0.1rem auto;
-        padding: 0.2rem;
-        box-sizing: border-box;
-        min-width: 1024px;
-        background: #fff;
-        margin-top: 0.8rem;
-    }
+  .container{
+    display: flex;
+  }
+  .contentArea {
+    width: 1000px;
+    min-width: 1024px;
+    margin-top: 88px;
+    margin-left: 20px;
+  }
+  .left{
+    margin-top: 88px;
+    width:180px;
+    height:80px;
+    background: #fff;
+    margin-left: 360px;
+    min-width: 67px;
+  }
+  .tab1,.tab2{
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .tabBlue{
+    background-color: #45B5FB;
+    color: #fff;
+  }
 </style>

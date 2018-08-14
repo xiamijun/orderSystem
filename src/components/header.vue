@@ -1,7 +1,13 @@
 <template xmlns:v-bind="http://www.w3.org/1999/xhtml">
   <div class="head">
     <div class="topBackground">
-      <span>Vue模板</span>
+      <img src="../assets/images/music.png" alt="">
+      <span class="title">音乐素养展示与评价活动</span>
+      <span>用户系统</span>
+      <span>订单系统</span>
+      <img src="../assets/images/user.png" alt="">
+      <span class="username">路小雨</span>
+      <span class="checkOut">注销</span>
     </div>
   </div>
 </template>
@@ -24,42 +30,32 @@
     top: 0;
     width: 100%;
     z-index: 999;
+    box-shadow:5px 0px 10px rgba(0,0,0,0.05);
   }
   .topBackground {
     width: 100%;
     min-width: 1024px;
-    height: 0.6rem;
-    position: relative;
-    background: -webkit-linear-gradient(#09A7F0, #7697FE); /* Safari 5.1 - 6.0 */
+    height:68px;
+    background-color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-  .topBackground span{
-    font-size: .2rem;
-    line-height: .6rem;
-    margin-left: 1.14rem;
-    color: #fff;
-    position: relative;
+  .topBackground .title{
+    font-size:20px;
+    font-family:FZY3JW--GB1-0;
+    color:#39424B;
   }
-  .topBackground::before{
-    content: '';
-    width: .73rem;
-    height: .2rem;
-    display: block;
-    position: absolute;
-    top: 50%;
-    left: .27rem;
-    margin-top: -.1rem;
-    background: url("../assets/images/logo.png") no-repeat center;
-    background-size: .73rem .2rem;
+  .topBackground span:nth-of-type(2){
+    color: #7A8087;
   }
-  .topBackground::after{
-    content: '';
-    width: 1.39rem;
-    height: .59rem;
-    display: block;
-    position: absolute;
-    top: 50%;
-    right: .3rem;
-    margin-top: -.3rem;
-    background-size: 1.39rem .59rem;
+  .topBackground span:nth-of-type(3){
+    color: #209CEA;
+  }
+  .topBackground span:nth-of-type(2),.topBackground span:nth-of-type(2){
+    cursor: pointer;
+  }
+  .username,.checkOut{
+    color:#7A8087
   }
 </style>
