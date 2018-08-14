@@ -7,7 +7,7 @@
         <div class="tab2" :class="{tabBlue:activeTab===2}" @click="changeTab(2)"><span>订单列表</span></div>
       </div>
       <div class="contentArea">
-        11
+        <orderStatistics v-if="activeTab===1"></orderStatistics>
       </div>
     </div>
   </div>
@@ -15,9 +15,11 @@
 
 <script>
   import headerComponent from '@/components/header.vue'
+  import orderStatistics from './orderStatistics.vue'
   export default {
     components:{
       headerComponent,
+      orderStatistics
     },
     data() {
       return {
@@ -35,10 +37,11 @@
 <style scoped>
   .container{
     display: flex;
+    justify-content: center;
   }
   .contentArea {
     width: 1000px;
-    min-width: 1024px;
+    /*min-width: 1024px;*/
     margin-top: 88px;
     margin-left: 20px;
   }
@@ -47,7 +50,6 @@
     width:180px;
     height:80px;
     background: #fff;
-    margin-left: 360px;
     min-width: 67px;
   }
   .tab1,.tab2{
