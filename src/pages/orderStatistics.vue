@@ -39,8 +39,21 @@
     </div>
     <div class="contentThree">
       <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="销售额走势" name="first"><allMoney></allMoney></el-tab-pane>
-        <el-tab-pane label="各商品销售额走势" name="second"><typeMoney></typeMoney></el-tab-pane>
+        <div class="choose">
+          <div class="tab1" :class="{tabBlue:activeTab===1}" @click="changeTab(1)"><span>按年</span></div>
+          <div class="tab2" :class="{tabBlue:activeTab===2}" @click="changeTab(2)"><span>按月</span></div>
+          <div class="tab3" :class="{tabBlue:activeTab===3}" @click="changeTab(3)"><span>按日</span></div>
+        </div>
+        <el-tab-pane label="销售额走势" name="first">
+          <allMoney v-if="activeTab===1"></allMoney>
+          <allMoneyByDay v-else-if="activeTab===2"></allMoneyByDay>
+          <allMoneyByHour v-else-if="activeTab===3"></allMoneyByHour>
+        </el-tab-pane>
+        <el-tab-pane label="各商品销售额走势" name="second">
+          <typeMoney v-if="activeTab===1"></typeMoney>
+          <typeMoneyByDay v-else-if="activeTab===2"></typeMoneyByDay>
+          <typeMoneyByHour v-else-if="activeTab===3"></typeMoneyByHour>
+        </el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -48,11 +61,19 @@
 
 <script>
   import typeMoney from '../components/typeMoney'
+  import typeMoneyByDay from '../components/typeMoneyByDay'
+  import typeMoneyByHour from '../components/typeMoneyByHour'
   import allMoney from '../components/allMoney'
+  import allMoneyByDay from '../components/allMoneyByDay'
+  import allMoneyByHour from '../components/allMoneyByHour'
   export default {
     components:{
       typeMoney,
-      allMoney
+      allMoney,
+      allMoneyByDay,
+      typeMoneyByDay,
+      allMoneyByHour,
+      typeMoneyByHour
     },
     data() {
       return {
@@ -64,7 +85,7 @@
         zhuanshumoce:'',
         zhuanshujichu:'',
         activeName: 'first',
-
+        activeTab:1
       };
     },
     created(){
@@ -77,10 +98,11 @@
         this.zhuanshumoce=data.zhuanshumoce;
         this.zhuanshujichu=data.zhuanshujichu;
       })
-
-
     },
     methods: {
+      changeTab(data){
+        this.activeTab=data;
+      }
     }
   }
 </script>
@@ -152,5 +174,24 @@
   }
   .contentThree{
     margin-bottom: 70px;
+  }
+  .choose{
+    float: right;
+    width:180px;
+    height:80px;
+    display: flex;
+  }
+  .tab1,.tab2,.tab3{
+    height: 40px;
+    width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  .tabBlue{
+    background-color: #45B5FB;
+    color: #fff;
   }
 </style>

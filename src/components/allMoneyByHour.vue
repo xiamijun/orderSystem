@@ -1,10 +1,12 @@
 <template xmlns:v-bind="http://www.w3.org/1999/xhtml">
   <div>
-    <label>选择年份：</label>
+    <label>选择日期：</label>
     <el-date-picker
-      v-model="valueYear"
-      type="year"
-      placeholder="选择年"
+      v-model="valueDay"
+      align="right"
+      type="date"
+      placeholder="选择日期"
+      :picker-options="pickerOptions1"
       @change="changeSelect">
     </el-date-picker>
     <div id="myChart" style="width: 1000px;height:400px;"></div>
@@ -18,64 +20,49 @@
         width="120">
       </el-table-column>
       <el-table-column
-        prop="January"
-        label="1月"
-        width="70">
+        prop="hour1"
+        label="1-8点"
+        width="90">
       </el-table-column>
       <el-table-column
-        prop="February"
-        label="2月"
-        width="70">
+        prop="hour10"
+        label="10点"
+        width="90">
       </el-table-column>
       <el-table-column
-        prop="March"
-        label="3月"
-        width="70">
+        prop="hour12"
+        label="12点"
+        width="90">
       </el-table-column>
       <el-table-column
-        prop="April"
-        label="4月"
-        width="70">
+        prop="hour14"
+        label="14点"
+        width="90">
       </el-table-column>
       <el-table-column
-        prop="May"
-        label="5月"
-        width="70">
+        prop="hour16"
+        label="16点"
+        width="90">
       </el-table-column>
       <el-table-column
-        prop="June"
-        label="6月"
-        width="70">
+        prop="hour18"
+        label="18点"
+        width="90">
       </el-table-column>
       <el-table-column
-        prop="July"
-        label="7月"
-        width="70">
+        prop="hour20"
+        label="20点"
+        width="90">
       </el-table-column>
       <el-table-column
-        prop="August"
-        label="8月"
-        width="70">
+        prop="hour22"
+        label="22点"
+        width="90">
       </el-table-column>
       <el-table-column
-        prop="September"
-        label="9月"
-        width="70">
-      </el-table-column>
-      <el-table-column
-        prop="October"
-        label="10月"
-        width="70">
-      </el-table-column>
-      <el-table-column
-        prop="November"
-        label="11月"
-        width="70">
-      </el-table-column>
-      <el-table-column
-        prop="December"
-        label="12月"
-        width="70">
+        prop="hour24"
+        label="24点"
+        width="90">
       </el-table-column>
     </el-table>
   </div>
@@ -88,7 +75,32 @@
     data(){
       return{
         tableData:[],
-        valueYear: '2018'
+        valueDay: '2018-08-16',
+        pickerOptions1: {
+          disabledDate(time) {
+            return time.getTime() > Date.now();
+          },
+          shortcuts: [{
+            text: '今天',
+            onClick(picker) {
+              picker.$emit('pick', new Date());
+            }
+          }, {
+            text: '昨天',
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24);
+              picker.$emit('pick', date);
+            }
+          }, {
+            text: '一周前',
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit('pick', date);
+            }
+          }]
+        },
       }
     },
     created(){
@@ -99,18 +111,18 @@
     },
     methods:{
       getTableData(){
-        this.$get(this.ME.allMoneyByMonth,{},data=>{
+        this.$get(this.ME.allMoneyByHour,{},data=>{
           this.tableData=data.tableData;
         })
       },
       getChartData(){
-        this.$get(this.ME.allMoneyByMonth,{},data=>{
+        this.$get(this.ME.allMoneyByHour,{},data=>{
           let myChart = echarts.init(document.getElementById('myChart'));
           let series=[];
           data.tableData.forEach(v => {
             let obj={};
             obj.type="line";
-            obj.data=new Array(v.January,v.February,v.March,v.April,v.May,v.June,v.July,v.August,v.September,v.October,v.November,v.December);
+            obj.data=new Array(v.hour1,v.hour10,v.hour12,v.hour14,v.hour16,v.hour18,v.hour20,v.hour22,v.hour24);
             series.push(obj);
           })
           let option = {
@@ -122,7 +134,7 @@
             },
             xAxis: {
               type: 'category',
-              data: ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
+              data: ['1-8点','10点','12点','14点','16点','18点','20点','22点','24点']
             },
             yAxis: {
               type: 'value'

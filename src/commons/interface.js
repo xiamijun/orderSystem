@@ -9,8 +9,14 @@ inter.install = function(Vue) {
 	  getUserId:baseUrl.url + "/user/info",//获取用户id
     orderStatistics:baseUrl.url + "orderStatistics",
     moneyByMonth:baseUrl.url + "moneyByMonth",
+    moneyByDay:baseUrl.url + "moneyByDay",
+    moneyByHour:baseUrl.url + "moneyByHour",
     allMoneyByMonth:baseUrl.url + "allMoneyByMonth",
-    orderList:baseUrl.url + "orderList",
+    allMoneyByDay:baseUrl.url + "allMoneyByDay",
+    allMoneyByHour:baseUrl.url + "allMoneyByHour",
+    orderListTwenty:baseUrl.url + "orderListTwenty",
+    orderListFifty:baseUrl.url + "orderListFifty",
+    orderListHundred:baseUrl.url + "orderListHundred",
 	}
 
 	Vue.prototype.ME = ME;

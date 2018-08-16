@@ -3,7 +3,7 @@
     <p style="font-weight: bold;font-size: 20px;margin-top: 5px;margin-left: 5px">订单列表</p>
     <div class="search">
       <el-input v-model="input" placeholder="请输入手机号/昵称" style="width: 500px"></el-input>
-      <el-button type="primary">搜索</el-button>
+      <el-button type="primary" @click="search">搜索</el-button>
     </div>
     <div class="search2">
       <div class="orderStatus">
@@ -16,7 +16,7 @@
       </div>
       <div style="margin-top: 20px">
         <label>商品名称：</label>
-        <el-select v-model="value" placeholder="请选择">
+        <el-select v-model="value" placeholder="请选择" @change="changeGood($event,value)">
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -62,7 +62,10 @@
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-select v-model="value2" placeholder="请选择" @change="changeSelect($event,value)">
+            <template v-if="scope.row.status==='待支付'||scope.row.status==='已退款'">
+              ----------------------
+            </template>
+            <el-select v-model="value2" placeholder="请选择" @change="changeSelect($event,value)" v-else>
               <el-option
                 v-for="item in options2"
                 :key="item.value"
@@ -107,7 +110,7 @@
       width="30%"
       :before-close="handleClose">
       <label>退款金额：</label>
-      <el-input v-model="inputYiTuiKuan" placeholder="请输入"></el-input>元
+      <el-input v-model="inputYiTuiKuan" placeholder="请输入" style="width: 200px"></el-input>元
       <span slot="footer" class="dialog-footer">
         <el-button @click="yiTuiKuanDialog = false">取 消</el-button>
         <el-button type="primary" @click="yiTuiKuanDialog = false">确 定</el-button>
@@ -128,6 +131,9 @@
         activeStatus:1,
         input:'',
         options: [{
+          value: '全部',
+          label: '全部'
+        },{
           value: '基础套餐',
           label: '基础套餐'
         }, {
@@ -153,6 +159,9 @@
         }],
         value2: '',
         tableData:[],
+        tableDataOri20:[],
+        tableDataOri50:[],
+        tableDataOri100:[],
         currentPage:1,
         pageSize:20,
         totalSize:0,
@@ -163,23 +172,80 @@
       }
     },
     created(){
-      this.getData();
+      this.getData(20);
     },
     methods:{
-      getData(){
-        let params={
-
+      getData(num){
+        switch (num) {
+          case 20:
+            this.$get(this.ME.orderListTwenty,{},(data)=>{
+              this.tableData=data.tableData;
+              this.tableDataOri20=data.tableData;
+              this.totalSize=200;
+            })
+            break;
+          case 50:
+            this.$get(this.ME.orderListFifty,{},(data)=>{
+              this.tableData=data.tableData;
+              this.tableDataOri50=data.tableData;
+              this.totalSize=200;
+            })
+            break;
+          case 100:
+            this.$get(this.ME.orderListHundred,{},(data)=>{
+              this.tableData=data.tableData;
+              this.tableDataOri100=data.tableData;
+              this.totalSize=200;
+            })
+            break;
         }
-        this.$get(this.ME.orderList,params,(data)=>{
-          this.tableData=data.tableData;
-          this.totalSize=data.tableData.length;
-        })
       },
       changeStatus(data){
         this.activeStatus=data;
+        switch (data) {
+          case 1:
+            this.tableData=this.tableDataOri20
+            this.totalSize=200;
+            break;
+          case 2:
+            this.tableData=this.tableDataOri20.filter(value => {
+              return value.status==='已支付'
+            })
+            this.totalSize=this.tableData.length;
+            break;
+          case 3:
+            this.tableData=this.tableDataOri20.filter(value => {
+              return value.status==='待支付'
+            })
+            this.totalSize=this.tableData.length;
+            break;
+          case 4:
+            this.tableData=this.tableDataOri20.filter(value => {
+              return value.status==='已退款'
+            })
+            this.totalSize=this.tableData.length;
+            break;
+          case 5:
+            this.tableData=this.tableDataOri20.filter(value => {
+              return value.status==='待退款'
+            })
+            this.totalSize=this.tableData.length;
+            break;
+        }
       },
       handleSizeChange(val) {
         console.log(`每页 ${val} 条`);
+        switch (val){
+          case 20:
+            this.getData(20);
+            break;
+          case 50:
+            this.getData(50);
+            break;
+          case 100:
+            this.getData(100);
+            break;
+        }
       },
       handleCurrentChange(val) {
         console.log(`当前页: ${val}`);
@@ -190,7 +256,56 @@
         }else if (value==='已退款') {
           this.yiTuiKuanDialog=true;
         }
-      }
+      },
+      search(){
+        if (this.input==='') {
+          this.tableData=this.tableDataOri20;
+          this.totalSize=200;
+        }else {
+          this.tableData=this.tableDataOri20.filter(value => {
+            return value.phone===this.input
+          })
+          this.totalSize=this.tableData.length;
+        }
+      },
+      changeGood(value){
+        switch (value) {
+          case '全部':
+            this.tableData=this.tableDataOri20;
+            this.totalSize=200;
+            break;
+          case '基础套餐':
+            this.tableData=this.tableDataOri20.filter(value => {
+              return value.type==='基础套餐'
+            })
+            this.totalSize=this.tableData.length;
+            break;
+          case '专属基础套餐':
+            this.tableData=this.tableDataOri20.filter(value => {
+              return value.type==='专属基础套餐'
+            })
+            this.totalSize=this.tableData.length;
+            break;
+          case '全套模测套餐':
+            this.tableData=this.tableDataOri20.filter(value => {
+              return value.type==='全套模测套餐'
+            })
+            this.totalSize=this.tableData.length;
+            break;
+          case '专属模测套餐':
+            this.tableData=this.tableDataOri20.filter(value => {
+              return value.type==='专属模测套餐'
+            })
+            this.totalSize=this.tableData.length;
+            break;
+          case '单个关卡':
+            this.tableData=this.tableDataOri20.filter(value => {
+              return value.type==='单个关卡'
+            })
+            this.totalSize=this.tableData.length;
+            break;
+        }
+      },
     },
     watch:{
       daiTuiKuanDialog(val){
@@ -240,5 +355,6 @@
   }
   .activeBlue{
     background-color: #06A8F0;
+    color: #FFFFFF;
   }
 </style>

@@ -40,6 +40,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    flex-wrap: wrap;
   }
   .topBackground .title{
     font-size:20px;
@@ -52,7 +53,7 @@
   .topBackground span:nth-of-type(3){
     color: #209CEA;
   }
-  .topBackground span:nth-of-type(2),.topBackground span:nth-of-type(2){
+  .topBackground span:nth-of-type(2),.topBackground span:nth-of-type(3),.topBackground span:nth-of-type(5){
     cursor: pointer;
   }
   .username,.checkOut{
