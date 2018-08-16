@@ -8,6 +8,7 @@
       </div>
       <div class="contentArea">
         <orderStatistics v-if="activeTab===1"></orderStatistics>
+        <orderList v-if="activeTab===2"></orderList>
       </div>
     </div>
   </div>
@@ -16,10 +17,12 @@
 <script>
   import headerComponent from '@/components/header.vue'
   import orderStatistics from './orderStatistics.vue'
+  import orderList from './orderList.vue'
   export default {
     components:{
       headerComponent,
-      orderStatistics
+      orderStatistics,
+      orderList
     },
     data() {
       return {

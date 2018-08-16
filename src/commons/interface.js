@@ -7,7 +7,10 @@ inter.install = function(Vue) {
 	}
 	const ME = {
 	  getUserId:baseUrl.url + "/user/info",//获取用户id
-      orderStatistics:baseUrl.url + "orderStatistics"
+    orderStatistics:baseUrl.url + "orderStatistics",
+    moneyByMonth:baseUrl.url + "moneyByMonth",
+    allMoneyByMonth:baseUrl.url + "allMoneyByMonth",
+    orderList:baseUrl.url + "orderList",
 	}
 
 	Vue.prototype.ME = ME;

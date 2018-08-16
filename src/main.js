@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import Vuex from 'vuex'
+import echarts from 'echarts'
 
 import ElementUI from 'element-ui'
 import './assets/sass/reset.scss'//初始化样式
@@ -19,6 +20,7 @@ Vue.use(funcs)
 Vue.use(Vuex)
 
 Vue.use(ElementUI)
+Vue.use(echarts)
 
 Vue.config.productionTip = false
 

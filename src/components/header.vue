@@ -1,13 +1,13 @@
 <template xmlns:v-bind="http://www.w3.org/1999/xhtml">
   <div class="head">
     <div class="topBackground">
-      <img src="../assets/images/music.png" alt="">
-      <span class="title">音乐素养展示与评价活动</span>
-      <span>用户系统</span>
-      <span>订单系统</span>
-      <img src="../assets/images/user.png" alt="">
-      <span class="username">路小雨</span>
-      <span class="checkOut">注销</span>
+      <img src="../assets/images/music.png" alt="" style="margin-left: 350px">
+      <span class="title" style="margin-left: 10px">音乐素养展示与评价活动</span>
+      <span style="margin-left: 40px">用户系统</span>
+      <span style="margin-left: 40px">订单系统</span>
+      <img src="../assets/images/user.png" alt="" style="margin-left: 640px">
+      <span class="username" style="margin-left: 10px">路小雨</span>
+      <span class="checkOut" style="margin-left: 10px">注销</span>
     </div>
   </div>
 </template>
@@ -39,7 +39,7 @@
     background-color: #FFFFFF;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
   }
   .topBackground .title{
     font-size:20px;

@@ -13,8 +13,7 @@
     <div class="contentTwo">
       <el-card class="box-card">
         <div slot="header" class="clearfix">
-          <span>今日销售数量
-</span>
+          <span>今日销售数量</span>
         </div>
         <div class="cardContent">
           <div class="contentTwoItemOne">
@@ -38,12 +37,22 @@
         </div>
       </el-card>
     </div>
+    <div class="contentThree">
+      <el-tabs v-model="activeName" @tab-click="handleClick">
+        <el-tab-pane label="销售额走势" name="first"><allMoney></allMoney></el-tab-pane>
+        <el-tab-pane label="各商品销售额走势" name="second"><typeMoney></typeMoney></el-tab-pane>
+      </el-tabs>
+    </div>
   </div>
 </template>
 
 <script>
+  import typeMoney from '../components/typeMoney'
+  import allMoney from '../components/allMoney'
   export default {
     components:{
+      typeMoney,
+      allMoney
     },
     data() {
       return {
@@ -54,6 +63,8 @@
         dangeguanka:'',
         zhuanshumoce:'',
         zhuanshujichu:'',
+        activeName: 'first',
+
       };
     },
     created(){
@@ -66,6 +77,8 @@
         this.zhuanshumoce=data.zhuanshumoce;
         this.zhuanshujichu=data.zhuanshujichu;
       })
+
+
     },
     methods: {
     }
@@ -96,10 +109,6 @@
     font-size:20px;
   }
   .contentTwo{
-    /*width:1000px;*/
-    /*height:222px;*/
-    /*background:rgba(255,255,255,1);*/
-    /*box-shadow:0px 2px 10px 0px rgba(222,222,222,0.17);*/
     margin-top: 20px;
   }
   .clearfix{
@@ -137,5 +146,11 @@
   .cardNum2{
     position: relative;
     top: 10px;
+  }
+  .contentTwo{
+    margin-top: 20px;
+  }
+  .contentThree{
+    margin-bottom: 70px;
   }
 </style>
